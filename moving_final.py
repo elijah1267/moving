@@ -12,6 +12,8 @@ start_time = int(time.time())
 face_detected = False
 state = 0
 
+off_time = 0
+
 prev_frame_size = -1  # 이전 프레임 크기 초기화
 sound = 5
 
@@ -32,7 +34,7 @@ def remote_volume():
         cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
 
         if w < 100 :
-            goal = 5    
+            goal = 10    
             gap = goal - sound
             if gap < 0 :
                 gap = gap * (-1)
@@ -41,9 +43,9 @@ def remote_volume():
             elif gap > 0 :
                 for i in range(gap) :
                     run_adb_command("adb shell input keyevent KEYCODE_VOLUME_UP")
-            sound = 5
+            sound = 10
         elif 100 <= w < 200 :
-            goal = 6        
+            goal = 9        
             gap = goal - sound
             if gap < 0 :
                 gap = gap * (-1)
@@ -52,21 +54,8 @@ def remote_volume():
             elif gap > 0 :
                 for i in range(gap) :
                     run_adb_command("adb shell input keyevent KEYCODE_VOLUME_UP")
-            sound = 6
+            sound = 9
         elif 200 <= w < 300 :
-            goal = 7
-            gap = goal - sound
-            if gap < 0 :
-                gap = gap * (-1)
-                for i in range(gap) :
-                    run_adb_command("adb shell input keyevent KEYCODE_VOLUME_DOWN")
-                    
-            elif gap > 0 :
-                for i in range(gap) :
-                    run_adb_command("adb shell input keyevent KEYCODE_VOLUME_UP")
-            sound = 7        
-            
-        elif 300 <= w < 400 :
             goal = 8
             gap = goal - sound
             if gap < 0 :
@@ -77,9 +66,22 @@ def remote_volume():
             elif gap > 0 :
                 for i in range(gap) :
                     run_adb_command("adb shell input keyevent KEYCODE_VOLUME_UP")
-            sound = 8
+            sound = 8        
+            
+        elif 300 <= w < 400 :
+            goal = 7
+            gap = goal - sound
+            if gap < 0 :
+                gap = gap * (-1)
+                for i in range(gap) :
+                    run_adb_command("adb shell input keyevent KEYCODE_VOLUME_DOWN")
+                    
+            elif gap > 0 :
+                for i in range(gap) :
+                    run_adb_command("adb shell input keyevent KEYCODE_VOLUME_UP")
+            sound = 7
         elif 400 <= w < 500 :
-            goal = 9
+            goal = 6
             gap = goal - sound
             if gap < 0 :
                 gap = gap * (-1)
@@ -89,9 +91,9 @@ def remote_volume():
             elif gap > 0 :
                 for i in range(gap) :
                     run_adb_command("adb shell input keyevent KEYCODE_VOLUME_UP")
-            sound = 9
+            sound = 6
         elif 500 < w :
-            goal = 10
+            goal = 5
             gap = goal - sound
             if gap < 0 :
                 gap = gap * (-1)
@@ -101,7 +103,7 @@ def remote_volume():
             elif gap > 0 :
                 for i in range(gap) :
                     run_adb_command("adb shell input keyevent KEYCODE_VOLUME_UP")
-            sound = 10
+            sound = 5
 
         
 # stap&play 함수 
@@ -109,7 +111,7 @@ def stop_play():
     
     global state
     global start_time
-    off_time = 0
+    global off_time
     
     current_time = int(time.time())
 
